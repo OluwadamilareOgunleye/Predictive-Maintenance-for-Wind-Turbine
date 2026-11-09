@@ -1,0 +1,52 @@
+{
+  "Random Forest": {
+    "cv_accuracy_mean": 100.0,
+    "cv_accuracy_std": 0.0,
+    "test_accuracy": 100.0,
+    "test_precision": 100.0,
+    "test_recall": 100.0,
+    "test_f1": 100.0,
+    "test_roc_auc": 100.0,
+    "uses_scaled_input": false
+  },
+  "XGBoost": {
+    "cv_accuracy_mean": 99.95,
+    "cv_accuracy_std": 0.1,
+    "test_accuracy": 100.0,
+    "test_precision": 100.0,
+    "test_recall": 100.0,
+    "test_f1": 100.0,
+    "test_roc_auc": 100.0,
+    "uses_scaled_input": false
+  },
+  "Support Vector Machine": {
+    "cv_accuracy_mean": 100.0,
+    "cv_accuracy_std": 0.0,
+    "test_accuracy": 100.0,
+    "test_precision": 100.0,
+    "test_recall": 100.0,
+    "test_f1": 100.0,
+    "test_roc_auc": 100.0,
+    "uses_scaled_input": true
+  },
+  "Logistic Regression": {
+    "cv_accuracy_mean": 100.0,
+    "cv_accuracy_std": 0.0,
+    "test_accuracy": 100.0,
+    "test_precision": 100.0,
+    "test_recall": 100.0,
+    "test_f1": 100.0,
+    "test_roc_auc": 100.0,
+    "uses_scaled_input": true
+  },
+  "K-Nearest Neighbors": {
+    "cv_accuracy_mean": 100.0,
+    "cv_accuracy_std": 0.0,
+    "test_accuracy": 100.0,
+    "test_precision": 100.0,
+    "test_recall": 100.0,
+    "test_f1": 100.0,
+    "test_roc_auc": 100.0,
+    "uses_scaled_input": true
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "top_features": [
+    {
+      "feature": "AN3_mean",
+      "rf_importance": 0.01,
+      "xgb_importance": 1.0,
+      "mean_importance": 0.505
+    },
+    {
+      "feature": "AN5_p2p",
+      "rf_importance": 0.06,
+      "xgb_importance": 0.0,
+      "mean_importance": 0.03
+    },
+    {
+      "feature": "AN8_peak",
+      "rf_importance": 0.06,
+      "xgb_importance": 0.0,
+      "mean_importance": 0.03
+    },
+    {
+      "feature": "AN10_peak",
+      "rf_importance": 0.05,
+      "xgb_importance": 0.0,
+      "mean_importance": 0.025
+    },
+    {
+      "feature": "AN7_rms",
+      "rf_importance": 0.05,
+      "xgb_importance": 0.0,
+      "mean_importance": 0.025
+    },
+    {
+      "feature": "AN3_p2p",
+      "rf_importance": 0.04,
+      "xgb_importance": 0.0,
+      "mean_importance": 0.02
+    },
+    {
+      "feature": "AN10_std",
+      "rf_importance": 0.04,
+      "xgb_importance": 0.0,
+      "mean_importance": 0.02
+    },
+    {
+      "feature": "AN8_std",
+      "rf_importance": 0.04,
+      "xgb_importance": 0.0,
+      "mean_importance": 0.02
+    },
+    {
+      "feature": "AN5_std",
+      "rf_importance": 0.04,
+      "xgb_importance": 0.0,
+      "mean_importance": 0.02
+    },
+    {
+      "feature": "AN6_p2p",
+      "rf_importance": 0.04,
+      "xgb_importance": 0.0,
+      "mean_importance": 0.02
+    },
+    {
+      "feature": "AN10_p2p",
+      "rf_importance": 0.04,
+      "xgb_importance": 0.0,
+      "mean_importance": 0.02
+    },
+    {
+      "feature": "AN3_peak",
+      "rf_importance": 0.03,
+      "xgb_importance": 0.0,
+      "mean_importance": 0.015
+    },
+    {
+      "feature": "AN8_mean",
+      "rf_importance": 0.03,
+      "xgb_importance": 0.0,
+      "mean_importance": 0.015
+    },
+    {
+      "feature": "AN9_std",
+      "rf_importance": 0.03,
+      "xgb_importance": 0.0,
+      "mean_importance": 0.015
+    },
+    {
+      "feature": "AN9_peak",
+      "rf_importance": 0.03,
+      "xgb_importance": 0.0,
+      "mean_importance": 0.015
+    },
+    {
+      "feature": "AN5_rms",
+      "rf_importance": 0.03,
+      "xgb_importance": 0.0,
+      "mean_importance": 0.015
+    },
+    {
+      "feature": "AN10_mean",
+      "rf_importance": 0.03,
+      "xgb_importance": 0.0,
+      "mean_importance": 0.015
+    },
+    {
+      "feature": "AN9_p2p",
+      "rf_importance": 0.03,
+      "xgb_importance": 0.0,
+      "mean_importance": 0.015
+    },
+    {
+      "feature": "AN5_mean",
+      "rf_importance": 0.03,
+      "xgb_importance": 0.0,
+      "mean_importance": 0.015
+    },
+    {
+      "feature": "AN5_peak",
+      "rf_importance": 0.03,
+      "xgb_importance": 0.0,
+      "mean_importance": 0.015
+    }
+  ],
+  "channel_breakdown": {
+    "AN3": 0.555,
+    "AN4": 0.03,
+    "AN5": 0.095,
+    "AN6": 0.045,
+    "AN7": 0.05,
+    "AN8": 0.07500000000000001,
+    "AN9": 0.06,
+    "AN10": 0.09
+  }
+}
