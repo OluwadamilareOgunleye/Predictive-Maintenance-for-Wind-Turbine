@@ -1,6 +1,6 @@
 """
-Vortex AI - Professional Wind Turbine Predictive Maintenance & Digital Twin Portal
-Enterprise UI with Dynamic Dark / Light Themes, 3D CAD Showcase, and ML Inference Studio.
+AeroMonitor - Industrial Wind Turbine Predictive Maintenance & Drivetrain Digital Twin
+Professional Enterprise Dashboard inspired by modern Figma design systems.
 """
 
 import os
@@ -12,10 +12,10 @@ import streamlit as st
 import plotly.graph_objects as go
 import plotly.express as px
 
-# Page configuration
+# Streamlit Page Configuration
 st.set_page_config(
-    page_title="Vortex AI | Wind Turbine Maintenance",
-    page_icon="🌪️",
+    page_title="AeroMonitor | Drivetrain Predictive Maintenance",
+    page_icon="A",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -24,31 +24,32 @@ st.set_page_config(
 if "theme" not in st.session_state:
     st.session_state.theme = "dark"
 
-# Theme definitions
 is_dark = (st.session_state.theme == "dark")
 
+# Figma-grade design tokens (No harsh colors, clean borders, modern slate hierarchy)
 THEME = {
-    "bg_main": "#0B0F19" if is_dark else "#F8FAFC",
-    "bg_nav": "#111827" if is_dark else "#FFFFFF",
-    "bg_card": "#131C2E" if is_dark else "#FFFFFF",
-    "bg_card_subtle": "#1E293B" if is_dark else "#F1F5F9",
-    "border": "#24314A" if is_dark else "#E2E8F0",
-    "text_primary": "#F8FAFC" if is_dark else "#0F172A",
+    "bg_main": "#090D16" if is_dark else "#F8FAFC",
+    "bg_nav": "#0E1524" if is_dark else "#FFFFFF",
+    "bg_card": "#121A2D" if is_dark else "#FFFFFF",
+    "bg_card_subtle": "#17223B" if is_dark else "#F1F5F9",
+    "border": "#1E2C4A" if is_dark else "#E2E8F0",
+    "border_focus": "#38BDF8" if is_dark else "#0284C7",
+    "text_primary": "#F1F5F9" if is_dark else "#0F172A",
     "text_secondary": "#94A3B8" if is_dark else "#64748B",
+    "text_muted": "#64748B" if is_dark else "#94A3B8",
     "accent": "#38BDF8" if is_dark else "#0284C7",
-    "healthy_bg": "rgba(16, 185, 129, 0.12)" if is_dark else "#ECFDF5",
-    "healthy_border": "#10B981" if is_dark else "#34D399",
+    "healthy_bg": "rgba(16, 185, 129, 0.08)" if is_dark else "#ECFDF5",
+    "healthy_border": "#059669" if is_dark else "#10B981",
     "healthy_text": "#34D399" if is_dark else "#065F46",
-    "damaged_bg": "rgba(244, 63, 94, 0.12)" if is_dark else "#FFF1F2",
-    "damaged_border": "#F43F5E" if is_dark else "#FB7185",
-    "damaged_text": "#FB7185" if is_dark else "#9F1239",
-    "directive_bg": "#131F37" if is_dark else "#F0F9FF",
+    "damaged_bg": "rgba(239, 68, 68, 0.08)" if is_dark else "#FEF2F2",
+    "damaged_border": "#DC2626" if is_dark else "#EF4444",
+    "damaged_text": "#F87171" if is_dark else "#991B1B",
+    "directive_bg": "#101A2F" if is_dark else "#F0F9FF",
     "directive_border": "#38BDF8" if is_dark else "#0284C7",
     "plotly_template": "plotly_dark" if is_dark else "plotly_white",
-    "plotly_grid": "#1F293D" if is_dark else "#F1F5F9"
 }
 
-# Dynamic CSS Injection
+# Figma-Style Clean CSS (Zero Emojis, Precise Spacing & Typography)
 st.markdown(f"""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -61,145 +62,126 @@ st.markdown(f"""
     
     .block-container {{
         padding-top: 1rem;
-        padding-bottom: 3rem;
+        padding-bottom: 2.5rem;
         max-width: 1220px;
     }}
     
-    /* Top Nav Bar */
-    .top-nav {{
+    /* Top Header Bar */
+    .app-header {{
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0.85rem 1.4rem;
+        padding: 0.9rem 1.4rem;
         background: {THEME['bg_nav']};
         border: 1px solid {THEME['border']};
-        border-radius: 12px;
-        margin-bottom: 1.4rem;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, {"0.2" if is_dark else "0.04"});
-    }}
-    .brand-title {{
-        font-size: 1.25rem;
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        color: {THEME['text_primary']};
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }}
-    .status-pill {{
-        background: rgba(16, 185, 129, 0.15);
-        color: #10B981;
-        border: 1px solid rgba(16, 185, 129, 0.35);
-        padding: 4px 12px;
-        border-radius: 9999px;
-        font-size: 0.82rem;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }}
-    .pulse-dot {{
-        width: 8px;
-        height: 8px;
-        background-color: #10B981;
-        border-radius: 50%;
-        display: inline-block;
-    }}
-    
-    /* Hero Section */
-    .hero-title {{
-        font-size: 2.15rem;
-        font-weight: 800;
-        color: {THEME['text_primary']};
-        letter-spacing: -0.03em;
-        line-height: 1.2;
-        margin-bottom: 0.5rem;
-    }}
-    .hero-subtitle {{
-        font-size: 1rem;
-        color: {THEME['text_secondary']};
-        line-height: 1.5;
+        border-radius: 8px;
         margin-bottom: 1.2rem;
     }}
+    .brand-title {{
+        font-size: 1.15rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: {THEME['text_primary']};
+    }}
+    .brand-subtitle {{
+        font-size: 0.8rem;
+        color: {THEME['text_secondary']};
+        margin-left: 10px;
+        padding-left: 10px;
+        border-left: 1px solid {THEME['border']};
+    }}
+    .status-badge {{
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #10B981;
+        background: rgba(16, 185, 129, 0.12);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        border-radius: 4px;
+        padding: 3px 8px;
+    }}
     
-    /* Metric Cards */
+    /* Hero Title & Subtext */
+    .hero-title {{
+        font-size: 1.85rem;
+        font-weight: 700;
+        color: {THEME['text_primary']};
+        letter-spacing: -0.02em;
+        margin-bottom: 0.35rem;
+    }}
+    .hero-subtitle {{
+        font-size: 0.92rem;
+        color: {THEME['text_secondary']};
+        line-height: 1.5;
+        margin-bottom: 1rem;
+    }}
+    
+    /* KPI Card */
     .kpi-card {{
         background: {THEME['bg_card']};
         border: 1px solid {THEME['border']};
-        border-radius: 12px;
+        border-radius: 8px;
         padding: 1rem 1.1rem;
-        box-shadow: 0 2px 6px rgba(0,0,0, {"0.15" if is_dark else "0.03"});
     }}
-    .kpi-num {{
+    .kpi-lbl {{
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: {THEME['text_secondary']};
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 4px;
+    }}
+    .kpi-val {{
         font-size: 1.5rem;
         font-weight: 700;
         color: {THEME['text_primary']};
         letter-spacing: -0.02em;
     }}
-    .kpi-lbl {{
-        font-size: 0.78rem;
-        font-weight: 500;
-        color: {THEME['text_secondary']};
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-top: 3px;
-    }}
     
-    /* CAD Showcase Frame */
-    .cad-box {{
+    /* 3D Model Showcase Frame */
+    .cad-frame {{
         background: {THEME['bg_card']};
         border: 1px solid {THEME['border']};
-        border-radius: 16px;
-        padding: 1.2rem;
+        border-radius: 8px;
+        padding: 1rem;
         text-align: center;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, {"0.25" if is_dark else "0.04"});
     }}
     
     /* Diagnostic Outcome Cards */
     .outcome-healthy {{
         background: {THEME['healthy_bg']};
-        border: 2px solid {THEME['healthy_border']};
-        border-radius: 12px;
-        padding: 1.4rem;
+        border: 1px solid {THEME['healthy_border']};
+        border-radius: 8px;
+        padding: 1.25rem;
         text-align: center;
     }}
     .outcome-damaged {{
         background: {THEME['damaged_bg']};
-        border: 2px solid {THEME['damaged_border']};
-        border-radius: 12px;
-        padding: 1.4rem;
+        border: 1px solid {THEME['damaged_border']};
+        border-radius: 8px;
+        padding: 1.25rem;
         text-align: center;
     }}
     
-    /* Prescriptive Directive Box */
-    .directive-box {{
+    /* Directive Action Box */
+    .action-directive {{
         background: {THEME['directive_bg']};
-        border-left: 4px solid {THEME['directive_border']};
-        border-radius: 8px;
-        padding: 1.2rem;
+        border-left: 3px solid {THEME['directive_border']};
+        border-radius: 6px;
+        padding: 1.1rem;
         color: {THEME['text_primary']};
+        font-size: 0.9rem;
+        line-height: 1.55;
     }}
     
-    /* Model Architecture Cards */
+    /* Model Architecture Card */
     .model-card {{
         background: {THEME['bg_card']};
         border: 1px solid {THEME['border']};
-        border-radius: 12px;
-        padding: 1.2rem;
-        box-shadow: 0 2px 8px rgba(0,0,0, {"0.15" if is_dark else "0.03"});
+        border-radius: 8px;
+        padding: 1.1rem;
         margin-bottom: 0.8rem;
-    }}
-    
-    /* Style overrides for standard inputs */
-    div[data-baseweb="input"] {{
-        background-color: {THEME['bg_card']} !important;
-        border-color: {THEME['border']} !important;
-        color: {THEME['text_primary']} !important;
-    }}
-    div[data-baseweb="select"] > div {{
-        background-color: {THEME['bg_card']} !important;
-        border-color: {THEME['border']} !important;
-        color: {THEME['text_primary']} !important;
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -242,113 +224,109 @@ def load_app_resources():
 df_full, df_train, df_test, signals, metrics, feat_imp, feature_names, models, scaler = load_app_resources()
 
 # ==============================================================================
-# TOP BAR WITH THEME TOGGLE BUTTON
+# TOP BAR (CLEAN FIGMA STYLE WITH THEME TOGGLE)
 # ==============================================================================
-col_nav_brand, col_nav_controls = st.columns([3, 1.2])
+col_nav_brand, col_nav_theme = st.columns([3.5, 1])
 
 with col_nav_brand:
     st.markdown(f"""
-    <div style="display: flex; align-items: center; gap: 10px; padding: 6px 0;">
-        <span style="font-size: 1.6rem;">🌪️</span>
-        <span style="font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em; color: {THEME['text_primary']};">VORTEX AI</span>
-        <span style="font-size: 0.85rem; font-weight: 500; color: {THEME['text_secondary']};">| Wind Turbine Predictive Maintenance</span>
-        <div class="status-pill" style="margin-left: 12px;">
-            <span class="pulse-dot"></span> 40 kHz TELEMETRY ONLINE
-        </div>
+    <div style="display: flex; align-items: center; gap: 8px; padding: 4px 0;">
+        <span class="brand-title">AEROMONITOR</span>
+        <span class="brand-subtitle">Wind Turbine Drivetrain Diagnostics</span>
+        <span class="status-badge" style="margin-left: 12px;">SYSTEM OPERATIONAL &bull; 40 kHz</span>
     </div>
     """, unsafe_allow_html=True)
 
-with col_nav_controls:
-    btn_theme_label = "☀️ Switch to Light Mode" if is_dark else "🌙 Switch to Dark Mode"
-    if st.button(btn_theme_label, use_container_width=True):
+with col_nav_theme:
+    btn_label = "Switch to Light Theme" if is_dark else "Switch to Dark Theme"
+    if st.button(btn_label, use_container_width=True):
         st.session_state.theme = "light" if is_dark else "dark"
         st.rerun()
 
-st.markdown("<hr style='margin: 0.6rem 0 1.2rem 0; opacity: 0.15;'>", unsafe_allow_html=True)
+st.markdown("<hr style='margin: 0.5rem 0 1rem 0; opacity: 0.1;'>", unsafe_allow_html=True)
 
 # ==============================================================================
-# HERO SECTION WITH 3D TURBINE MODEL DISPLAY
+# HERO SECTION WITH 3D CAD MODEL SHOWCASE
 # ==============================================================================
 col_hero_left, col_hero_right = st.columns([1.15, 1])
 
 with col_hero_left:
     st.markdown(f"""
     <div style="padding-right: 1.2rem;">
-        <div style="color: {THEME['accent']}; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px;">
-            Drivetrain Health & Predictive Diagnostics
+        <div style="font-size: 0.75rem; font-weight: 700; color: {THEME['accent']}; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px;">
+            Drivetrain Health Monitoring
         </div>
-        <div class="hero-title">Continuous Vibration Intelligence for Wind Turbines</div>
+        <div class="hero-title">Predictive Maintenance System</div>
         <div class="hero-subtitle">
-            Enterprise predictive maintenance platform powered by multi-model machine learning.
-            Detects bearing fatigue, gear tooth spalling, and dynamic impact faults in advance.
+            Condition-based vibration monitoring and machine learning diagnostics for wind turbine drivetrains.
+            Detect bearing raceway spalling, tooth wear, and structural imbalance before critical seizure.
         </div>
     </div>
     """, unsafe_allow_html=True)
     
-    # 4 Clean Metric Badges
     kp1, kp2, kp3, kp4 = st.columns(4)
     with kp1:
         st.markdown(f"""
         <div class="kpi-card">
-            <div class="kpi-num">750 kW</div>
-            <div class="kpi-lbl">Turbine Rating</div>
+            <div class="kpi-lbl">Rated Capacity</div>
+            <div class="kpi-val">750 kW</div>
         </div>
         """, unsafe_allow_html=True)
     with kp2:
         st.markdown(f"""
         <div class="kpi-card">
-            <div class="kpi-num">8</div>
             <div class="kpi-lbl">Accelerometers</div>
+            <div class="kpi-val">8 Units</div>
         </div>
         """, unsafe_allow_html=True)
     with kp3:
         st.markdown(f"""
         <div class="kpi-card">
-            <div class="kpi-num">2,400</div>
-            <div class="kpi-lbl">Data Windows</div>
+            <div class="kpi-lbl">Telemetry Windows</div>
+            <div class="kpi-val">2,400</div>
         </div>
         """, unsafe_allow_html=True)
     with kp4:
         st.markdown(f"""
         <div class="kpi-card">
-            <div class="kpi-num" style="color: #10B981;">100%</div>
-            <div class="kpi-lbl">Holdout Acc</div>
+            <div class="kpi-lbl">Validation Acc</div>
+            <div class="kpi-val" style="color: #10B981;">100%</div>
         </div>
         """, unsafe_allow_html=True)
 
 with col_hero_right:
-    st.markdown('<div class="cad-box">', unsafe_allow_html=True)
+    st.markdown('<div class="cad-frame">', unsafe_allow_html=True)
     if os.path.exists(CAD_IMAGE_PATH):
-        st.image(CAD_IMAGE_PATH, caption="3D SolidWorks Wind Turbine Assembly (Nacelle, Shaft & Generator)", width='stretch')
+        st.image(CAD_IMAGE_PATH, caption="Wind Turbine 3D CAD Assembly (SolidWorks Model)", width='stretch')
     else:
-        st.info("3D CAD Render available in `cad/renders/`.")
+        st.info("3D CAD Render available in project workspace.")
     st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown("<br>", unsafe_allow_html=True)
 
 # ==============================================================================
-# MAIN TABS
+# TAB NAVIGATION (ZERO EMOJIS, CLEAN TEXT)
 # ==============================================================================
 tab_predict, tab_cad, tab_models, tab_signals = st.tabs([
-    "🔮 Live Diagnostic Studio",
-    "🖥️ 3D Digital Twin & CAD Model",
-    "🧠 Machine Learning Model Hub",
-    "📈 Vibration Waveforms & FFT"
+    "Live Diagnostics",
+    "Digital Twin & CAD Model",
+    "Model Hub & Benchmarks",
+    "Vibration Signals & FFT"
 ])
 
 # ------------------------------------------------------------------------------
-# TAB 1: PREDICTIVE DIAGNOSTIC STUDIO (DIRECT VALUE INPUT)
+# TAB 1: LIVE DIAGNOSTICS (DIRECT NUMERICAL INPUT)
 # ------------------------------------------------------------------------------
 with tab_predict:
-    st.markdown("### ⚡ Live Drivetrain Maintenance Prediction")
-    st.caption("Input sensor vibration measurements or select presets to diagnose turbine health and generate maintenance actions.")
+    st.markdown("### Drivetrain Maintenance Inference")
+    st.caption("Input dynamic sensor telemetry to assess asset condition and trigger prescriptive engineering procedures.")
     
     # Preset quick-load buttons
     btn_col1, btn_col2, btn_col3 = st.columns([1, 1, 2])
     with btn_col1:
-        load_healthy = st.button("🟢 Load Healthy Baseline Values", use_container_width=True)
+        load_healthy = st.button("Load Baseline Values (Healthy)", use_container_width=True)
     with btn_col2:
-        load_damaged = st.button("🔴 Load Defective Gearbox Values", use_container_width=True)
+        load_damaged = st.button("Load Fault Profile (Damaged)", use_container_width=True)
         
     if "input_hss" not in st.session_state:
         st.session_state.input_hss = 4.75
@@ -376,72 +354,71 @@ with tab_predict:
         st.session_state.input_peak = 25.0
         st.rerun()
 
-    # Diagnostic Input Form
+    # Form with direct numerical input fields
     with st.form("diagnostic_prediction_form"):
-        st.markdown("##### 📡 Drivetrain Vibration Telemetry Inputs (g-force acceleration):")
+        st.markdown("##### Drivetrain Telemetry Inputs (Acceleration RMS / Peak in g):")
         
         inp1, inp2, inp3 = st.columns(3)
         with inp1:
             val_pinion = st.number_input(
-                "High-Speed Pinion RMS (AN9)",
+                "Pinion Generator RMS (Sensor AN9)",
                 min_value=0.5, max_value=15.0,
                 value=float(st.session_state.input_pinion),
                 step=0.1,
-                help="Pinion gear mesh acceleration. Healthy: ~2.1g | Damaged: >7.0g"
+                help="Generator pinion vibration. Normal: ~2.1g | Damaged: >7.0g"
             )
             val_hss = st.number_input(
-                "High-Speed Shaft Bearing RMS (AN8)",
+                "High-Speed Shaft Bearing RMS (Sensor AN8)",
                 min_value=1.0, max_value=15.0,
                 value=float(st.session_state.input_hss),
                 step=0.1,
-                help="HSS bearing radial vibration. Healthy: ~4.7g | Damaged: >7.5g"
+                help="High-speed shaft bearing vibration. Normal: ~4.7g | Damaged: >7.5g"
             )
         with inp2:
             val_housing = st.number_input(
-                "Gearbox Housing Casing RMS (AN3)",
+                "Gearbox Housing Casing RMS (Sensor AN3)",
                 min_value=0.2, max_value=8.0,
                 value=float(st.session_state.input_housing),
                 step=0.1,
-                help="Structural casing vibration. Healthy: ~1.1g | Damaged: >2.8g"
+                help="Main casing vibration. Normal: ~1.1g | Damaged: >2.8g"
             )
             val_planetary = st.number_input(
-                "Planetary Stage RMS (AN10)",
+                "Planetary Stage RMS (Sensor AN10)",
                 min_value=0.5, max_value=10.0,
                 value=float(st.session_state.input_planetary),
                 step=0.1,
-                help="Planetary ring & sun gear acceleration. Healthy: ~1.9g | Damaged: >3.9g"
+                help="Planetary ring & sun gear vibration. Normal: ~1.9g | Damaged: >3.9g"
             )
         with inp3:
             val_iss = st.number_input(
-                "Intermediate Shaft RMS (AN5)",
+                "Intermediate Shaft RMS (Sensor AN5)",
                 min_value=0.5, max_value=10.0,
                 value=float(st.session_state.input_iss),
                 step=0.1,
-                help="Intermediate shaft axial vibration. Healthy: ~1.7g | Damaged: >3.8g"
+                help="Intermediate shaft axial vibration. Normal: ~1.7g | Damaged: >3.8g"
             )
             val_peak = st.number_input(
-                "Peak Dynamic Shock (Peak g)",
+                "Maximum Transient Shock (Peak g)",
                 min_value=1.0, max_value=60.0,
                 value=float(st.session_state.input_peak),
                 step=0.5,
-                help="Transient impact magnitude. Healthy: <12g | Severe Spall: >20g"
+                help="Peak impact amplitude. Normal: <12g | Severe Fault: >20g"
             )
             
         m_sel1, m_sel2 = st.columns([2, 1])
         with m_sel1:
             chosen_model_name = st.selectbox(
-                "Select Machine Learning Engine:",
+                "Diagnostic Inference Engine:",
                 list(models.keys()),
                 index=0
             )
             
-        submit_prediction = st.form_submit_button("🔍 Execute Diagnostic Inference", use_container_width=True)
+        submit_prediction = st.form_submit_button("Run Diagnostic Inference", use_container_width=True)
 
     # Perform Prediction
     active_clf = models[chosen_model_name]
     is_scaled_model = chosen_model_name in ['Support Vector Machine (RBF)', 'Logistic Regression', 'K-Nearest Neighbors']
     
-    # Synthesize complete 80-feature vector
     base_healthy_profile = df_full[df_full['label'] == 0][feature_names].mean().to_dict()
     live_feature_dict = base_healthy_profile.copy()
     
@@ -481,9 +458,9 @@ with tab_predict:
     health_index = int(round((1.0 - prob_fault) * 100))
     fault_probability = int(round(prob_fault * 100))
     
-    # Result Presentation
+    # Clean Result Display
     st.markdown("---")
-    st.markdown("### 📋 Real-Time Diagnostic Assessment")
+    st.markdown("### Diagnostic Assessment")
     
     out_col1, out_col2 = st.columns([1, 1.2])
     
@@ -491,49 +468,53 @@ with tab_predict:
         if pred_label == 0:
             st.markdown(f"""
             <div class="outcome-healthy">
-                <span style="font-size: 2.2rem;">🟢</span>
-                <h2 style="color: {THEME['healthy_text']}; margin: 6px 0 2px 0;">HEALTHY OPERATION</h2>
-                <div style="color: {THEME['text_secondary']}; font-size: 0.95rem; font-weight: 500;">No Maintenance Required</div>
-                <div style="font-size: 1.5rem; font-weight: 800; color: {THEME['healthy_text']}; margin-top: 14px;">
-                    Asset Health Score: {health_index}%
+                <div style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: {THEME['healthy_text']};">
+                    Diagnostic Status
+                </div>
+                <h3 style="color: {THEME['healthy_text']}; margin: 4px 0 2px 0;">NORMAL OPERATION</h3>
+                <div style="color: {THEME['text_secondary']}; font-size: 0.9rem;">No Immediate Maintenance Required</div>
+                <div style="font-size: 1.6rem; font-weight: 800; color: {THEME['healthy_text']}; margin-top: 10px;">
+                    {health_index}% Health Index
                 </div>
             </div>
             """, unsafe_allow_html=True)
         else:
             st.markdown(f"""
             <div class="outcome-damaged">
-                <span style="font-size: 2.2rem;">⚠️</span>
-                <h2 style="color: {THEME['damaged_text']}; margin: 6px 0 2px 0;">MAINTENANCE REQUIRED</h2>
-                <div style="color: {THEME['text_secondary']}; font-size: 0.95rem; font-weight: 500;">Fault Vibration Signature Detected</div>
-                <div style="font-size: 1.5rem; font-weight: 800; color: {THEME['damaged_text']}; margin-top: 14px;">
-                    Failure Probability: {fault_probability}%
+                <div style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: {THEME['damaged_text']};">
+                    Diagnostic Status
+                </div>
+                <h3 style="color: {THEME['damaged_text']}; margin: 4px 0 2px 0;">MAINTENANCE REQUIRED</h3>
+                <div style="color: {THEME['text_secondary']}; font-size: 0.9rem;">Abnormal Vibration Signature Detected</div>
+                <div style="font-size: 1.6rem; font-weight: 800; color: {THEME['damaged_text']}; margin-top: 10px;">
+                    {fault_probability}% Fault Risk
                 </div>
             </div>
             """, unsafe_allow_html=True)
             
         st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown(f"**Asset Health Progress Indicator ({health_index}%):**")
+        st.markdown(f"**Asset Health Progress:**")
         st.progress(health_index / 100.0)
 
     with out_col2:
-        st.markdown("##### 🛠️ Prescriptive Engineering Procedure:")
+        st.markdown("##### Prescriptive Maintenance Directive:")
         if pred_label == 0:
             st.markdown(f"""
-            <div class="directive-box">
-                <b style="color: #10B981; font-size: 1.05rem;">ISO 10816-21 Condition: Class A / B (Optimal)</b><br><br>
-                • <b>Vibration Severity:</b> All harmonics and shaft rotational frequencies are within safe baseline operating envelopes.<br>
-                • <b>Operational Directive:</b> Turbine is cleared for continuous 100% capacity generation.<br>
-                • <b>Next Inspection:</b> Standard 6-month scheduled visual inspection and routine oil sample analysis.
+            <div class="action-directive">
+                <b>ISO 10816-21 Condition: Class A / B (Acceptable)</b><br>
+                &bull; Drivetrain rotational harmonics and dynamic amplitudes remain within baseline boundaries.<br>
+                &bull; Asset cleared for continuous nominal operation.<br>
+                &bull; Maintain standard 6-month visual inspection and lubricant sampling schedule.
             </div>
             """, unsafe_allow_html=True)
         else:
             st.markdown(f"""
-            <div class="directive-box" style="border-left-color: #EF4444; background: {THEME['damaged_bg']};">
-                <b style="color: #EF4444; font-size: 1.05rem;">ISO 10816-21 Condition: Class D (Critical Damage)</b><br><br>
-                • <b>Vibration Severity:</b> Severe high-frequency energy spikes detected in drivetrain bearings and gear teeth.<br>
-                • <b>Step 1 (Immediate):</b> Restrict turbine power generation limit to 65% to avoid dynamic torque overloads.<br>
-                • <b>Step 2 (Oil Analysis):</b> Extract lubricant sample from gearbox sump for ferrography wear particle count.<br>
-                • <b>Step 3 (Field Service):</b> Dispatch maintenance technician with visual endoscope to inspect High-Speed Shaft (HSS) bearings.
+            <div class="action-directive" style="border-left-color: #EF4444; background: {THEME['damaged_bg']};">
+                <b style="color: #EF4444;">ISO 10816-21 Condition: Class D (Unacceptable Severity)</b><br>
+                &bull; Elevated high-frequency vibration indicates localized bearing fatigue or gear pitting.<br>
+                &bull; <b>Step 1:</b> Restrict generation limit to 65% rated capacity to reduce cyclic fatigue loads.<br>
+                &bull; <b>Step 2:</b> Perform lubricant analysis (ferrography wear-particle quantification).<br>
+                &bull; <b>Step 3:</b> Schedule visual endoscope inspection for High-Speed Shaft (HSS) bearings.
             </div>
             """, unsafe_allow_html=True)
 
@@ -541,35 +522,35 @@ with tab_predict:
 # TAB 2: 3D DIGITAL TWIN & CAD MODEL
 # ------------------------------------------------------------------------------
 with tab_cad:
-    st.markdown("### 🖥️ 3D Digital Twin & SolidWorks CAD Assembly")
-    st.caption("Detailed mechanical breakdown of the wind turbine drivetrain, structural assemblies, and sensor mapping.")
+    st.markdown("### Digital Twin & CAD Architecture")
+    st.caption("Mechanical assembly breakdown of the wind turbine structure and accelerometer layout.")
     
     col_cad_view, col_cad_specs = st.columns([1.2, 1])
     
     with col_cad_view:
         if os.path.exists(CAD_IMAGE_PATH):
-            st.image(CAD_IMAGE_PATH, caption="Wind Turbine CAD Assembly (SolidWorks 3D Render)", width='stretch')
+            st.image(CAD_IMAGE_PATH, caption="Wind Turbine 3D CAD Assembly (SolidWorks)", width='stretch')
         else:
             st.info("Wind Turbine CAD render available in `cad/renders/`.")
             
     with col_cad_specs:
-        st.markdown("#### ⚙️ SolidWorks Assembly Components")
+        st.markdown("#### SolidWorks CAD Subassemblies")
         st.markdown("""
-        The turbine 3D assembly in `cad/solidworks/` models all mechanical subcomponents:
-        * **Nacelle & Housing**: Protective aero-casing & mirror nacelle (`nacelle.SLDPRT`).
-        * **Rotor Blades**: 3-blade aerodynamic rotor system (`Wind mill Blade.SLDPRT`).
-        * **Main Drive Shaft**: Low-speed shaft receiving wind torque (`Main shaft.SLDPRT`).
-        * **Gearbox & Swivel Shaft**: Internal speed multiplier gear system (`generator gear.SLDPRT`, `shaft gear.SLDPRT`).
-        * **High-Speed Generator**: 1,800 RPM induction electrical generator (`generator.SLDPRT`).
-        * **Support Mast & Hub**: Upper/lower structural tower columns (`upper mast.SLDPRT`, `Lower mast.SLDPRT`, `Hub.SLDPRT`).
+        The complete 3D assembly in `cad/solidworks/` models all mechanical subcomponents:
+        * **Nacelle & Housing**: Aerodynamic housing and nacelle frame (`nacelle.SLDPRT`).
+        * **Rotor Blades**: 3-blade aerodynamic rotor assembly (`Wind mill Blade.SLDPRT`).
+        * **Low-Speed Main Shaft**: Main drive shaft transferring aerodynamic torque (`Main shaft.SLDPRT`).
+        * **Speed Multiplier Gearbox**: Helical and planetary gear stages (`generator gear.SLDPRT`, `shaft gear.SLDPRT`).
+        * **High-Speed Generator**: 1,800 RPM induction generator (`generator.SLDPRT`).
+        * **Tower Mast & Hub**: Upper and lower structural support columns (`upper mast.SLDPRT`, `Lower mast.SLDPRT`).
         """)
         
-        st.markdown("#### 🎯 Sensor Telemetry Grid (Accelerometers AN3–AN10)")
+        st.markdown("#### Accelerometer Sensor Allocation (AN3–AN10)")
         sensor_mapping_df = pd.DataFrame({
             "Sensor ID": ["AN3", "AN4", "AN5", "AN6", "AN7", "AN8", "AN9", "AN10"],
-            "Location on CAD Model": [
-                "Gearbox Lower Housing",
-                "Ring Gear Outer Ring",
+            "Mechanical Location": [
+                "Gearbox Housing (Lower)",
+                "Ring Gear Outer Housing",
                 "Intermediate Shaft (Axial)",
                 "Intermediate Shaft (Radial)",
                 "Planetary Carrier Bearing",
@@ -594,22 +575,23 @@ with tab_cad:
 # TAB 3: MACHINE LEARNING MODEL HUB
 # ------------------------------------------------------------------------------
 with tab_models:
-    st.markdown("### 🧠 Machine Learning Model Hub & Benchmark")
-    st.caption("Transparent architecture inspection, hyperparameter configurations, and holdout evaluation across 5 distinct algorithms.")
+    st.markdown("### Machine Learning Model Architecture & Benchmarks")
+    st.caption("Evaluation across 5 distinct algorithms on strictly held-out test turbines.")
     
-    # Model Cards Grid
+    # Model Architecture Cards
     mc1, mc2, mc3 = st.columns(3)
     
     with mc1:
         st.markdown(f"""
         <div class="model-card">
-            <h4 style="margin: 0 0 6px 0; color: {THEME['text_primary']};">Random Forest</h4>
-            <div style="color: #10B981; font-weight: 700; font-size: 1.1rem; margin-bottom: 8px;">100.0% Holdout Acc</div>
-            <p style="font-size: 0.85rem; color: {THEME['text_secondary']}; margin: 0;">
-                <b>Trees:</b> 100 Estimators<br>
-                <b>Max Depth:</b> 12<br>
-                <b>Split Criterion:</b> Gini Impurity<br>
-                <b>Input:</b> Raw 80 vibration features
+            <div style="font-size: 0.75rem; font-weight: 700; color: {THEME['text_secondary']}; text-transform: uppercase;">Ensemble Model</div>
+            <h4 style="margin: 2px 0 6px 0; color: {THEME['text_primary']};">Random Forest</h4>
+            <div style="color: #10B981; font-weight: 700; font-size: 1.05rem; margin-bottom: 6px;">100.0% Holdout Accuracy</div>
+            <p style="font-size: 0.82rem; color: {THEME['text_secondary']}; margin: 0; line-height: 1.5;">
+                &bull; Estimators: 100 Trees<br>
+                &bull; Max Depth: 12<br>
+                &bull; Criterion: Gini Impurity<br>
+                &bull; Input: 80 Vibration Features
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -617,13 +599,14 @@ with tab_models:
     with mc2:
         st.markdown(f"""
         <div class="model-card">
-            <h4 style="margin: 0 0 6px 0; color: {THEME['text_primary']};">XGBoost Classifier</h4>
-            <div style="color: #10B981; font-weight: 700; font-size: 1.1rem; margin-bottom: 8px;">100.0% Holdout Acc</div>
-            <p style="font-size: 0.85rem; color: {THEME['text_secondary']}; margin: 0;">
-                <b>Trees:</b> 100 Gradient Boosted Trees<br>
-                <b>Learning Rate:</b> 0.08<br>
-                <b>Max Depth:</b> 5<br>
-                <b>Objective:</b> Binary Logloss
+            <div style="font-size: 0.75rem; font-weight: 700; color: {THEME['text_secondary']}; text-transform: uppercase;">Gradient Boosting</div>
+            <h4 style="margin: 2px 0 6px 0; color: {THEME['text_primary']};">XGBoost Classifier</h4>
+            <div style="color: #10B981; font-weight: 700; font-size: 1.05rem; margin-bottom: 6px;">100.0% Holdout Accuracy</div>
+            <p style="font-size: 0.82rem; color: {THEME['text_secondary']}; margin: 0; line-height: 1.5;">
+                &bull; Estimators: 100 Trees<br>
+                &bull; Learning Rate: 0.08<br>
+                &bull; Max Depth: 5<br>
+                &bull; Objective: Binary Logloss
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -631,22 +614,23 @@ with tab_models:
     with mc3:
         st.markdown(f"""
         <div class="model-card">
-            <h4 style="margin: 0 0 6px 0; color: {THEME['text_primary']};">Support Vector Machine</h4>
-            <div style="color: #10B981; font-weight: 700; font-size: 1.1rem; margin-bottom: 8px;">100.0% Holdout Acc</div>
-            <p style="font-size: 0.85rem; color: {THEME['text_secondary']}; margin: 0;">
-                <b>Kernel:</b> Radial Basis Function (RBF)<br>
-                <b>Regularization (C):</b> 10.0<br>
-                <b>Gamma:</b> Scale<br>
-                <b>Input:</b> StandardScaler Normalized
+            <div style="font-size: 0.75rem; font-weight: 700; color: {THEME['text_secondary']}; text-transform: uppercase;">Kernel Method</div>
+            <h4 style="margin: 2px 0 6px 0; color: {THEME['text_primary']};">Support Vector Machine</h4>
+            <div style="color: #10B981; font-weight: 700; font-size: 1.05rem; margin-bottom: 6px;">100.0% Holdout Accuracy</div>
+            <p style="font-size: 0.82rem; color: {THEME['text_secondary']}; margin: 0; line-height: 1.5;">
+                &bull; Kernel: Radial Basis Function (RBF)<br>
+                &bull; Regularization (C): 10.0<br>
+                &bull; Scaling: StandardScaler Fitted<br>
+                &bull; Probability: Calibrated Sigmoid
             </p>
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("#### 📊 Comparative Benchmark Matrix")
+    st.markdown("#### Performance Benchmark Matrix")
     benchmark_table = []
     for model_name, m in metrics.items():
         benchmark_table.append({
-            "Machine Learning Model": model_name,
+            "Machine Learning Algorithm": model_name,
             "5-Fold CV Accuracy": f"{m['cv_accuracy_mean']}% ± {m['cv_accuracy_std']}%",
             "Holdout Test Accuracy": f"{m['test_accuracy']}%",
             "Precision": f"{m['test_precision']}%",
@@ -657,7 +641,7 @@ with tab_models:
     st.dataframe(pd.DataFrame(benchmark_table), hide_index=True, width='stretch')
     
     st.markdown("---")
-    st.markdown("#### 🎯 Feature Importance (What the Models Learned)")
+    st.markdown("#### Top Predictive Vibration Features")
     
     top_f_df = pd.DataFrame(feat_imp['top_features']).head(10)
     fig_imp = px.bar(
@@ -665,15 +649,15 @@ with tab_models:
         x='mean_importance',
         y='feature',
         orientation='h',
-        title="Top 10 Most Predictive Vibration Features",
+        title="Relative Feature Importance Ranking",
         labels={'mean_importance': 'Relative Importance Weight', 'feature': 'Feature Name'},
         color='mean_importance',
-        color_continuous_scale='Teal' if is_dark else 'Blues',
+        color_continuous_scale='Blues' if is_dark else 'Viridis',
         template=THEME['plotly_template']
     )
     fig_imp.update_layout(
         yaxis={'categoryorder': 'total ascending'},
-        height=340,
+        height=320,
         margin=dict(l=20, r=20, t=35, b=20),
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)'
@@ -681,11 +665,11 @@ with tab_models:
     st.plotly_chart(fig_imp, width='stretch')
 
 # ------------------------------------------------------------------------------
-# TAB 4: VIBRATION WAVEFORMS & FFT
+# TAB 4: VIBRATION SIGNALS & FFT
 # ------------------------------------------------------------------------------
 with tab_signals:
-    st.markdown("### 📈 Vibration Waveform & FFT Spectrum Explorer")
-    st.caption("Inspect authentic 40 kHz raw vibration time series and spectral frequency distributions.")
+    st.markdown("### Vibration Waveforms & Spectral FFT Analysis")
+    st.caption("40 kHz dynamic sensor time series and frequency-domain harmonic analysis.")
     
     # Waveform plot
     sig_h = signals['h_an8'][:1200]
@@ -701,10 +685,10 @@ with tab_signals:
     fig_wave.add_trace(go.Scatter(
         x=time_ms, y=sig_d,
         mode='lines', name='Damaged Waveform (Bearing Fault)',
-        line=dict(color='#F43F5E', width=1.5)
+        line=dict(color='#EF4444', width=1.5)
     ))
     fig_wave.update_layout(
-        title="High-Speed Shaft Bearing Accelerometer (AN8) - Time Domain",
+        title="High-Speed Shaft Bearing Accelerometer (Sensor AN8) - Time Domain",
         xaxis_title="Time (milliseconds)",
         yaxis_title="Vibration Acceleration (g)",
         height=340,
@@ -718,7 +702,7 @@ with tab_signals:
     
     st.markdown("---")
     
-    # FFT Frequency Spectrum
+    # FFT Spectrum
     sr = 40000
     fft_h = np.abs(np.fft.rfft(signals['h_an8']))
     fft_d = np.abs(np.fft.rfft(signals['d_an8']))
@@ -733,11 +717,11 @@ with tab_signals:
     ))
     fig_fft.add_trace(go.Scatter(
         x=freqs[mask], y=fft_d[mask],
-        mode='lines', name='Damaged FFT Spectrum (Harmonics & Sidebands)',
-        line=dict(color='#F43F5E', width=1.5)
+        mode='lines', name='Damaged FFT Spectrum (Bearing Harmonics)',
+        line=dict(color='#EF4444', width=1.5)
     ))
     fig_fft.update_layout(
-        title="FFT Power Spectrum (0 Hz - 5,000 Hz)",
+        title="FFT Power Spectrum (0 Hz to 5,000 Hz)",
         xaxis_title="Frequency (Hz)",
         yaxis_title="Spectral Energy Magnitude",
         height=340,
@@ -750,10 +734,10 @@ with tab_signals:
     st.plotly_chart(fig_fft, width='stretch')
 
 # Footer
-st.markdown("<hr style='margin: 2rem 0 1rem 0; opacity: 0.15;'>", unsafe_allow_html=True)
+st.markdown("<hr style='margin: 2rem 0 1rem 0; opacity: 0.1;'>", unsafe_allow_html=True)
 st.markdown(
-    f"<div style='text-align: center; color: {THEME['text_secondary']}; font-size: 0.85rem; padding: 10px 0;'>"
-    "🌪️ <b>Vortex AI</b> &bull; Industrial Wind Turbine Predictive Maintenance & Digital Twin Portal &bull; NREL Dynamometer Benchmark"
+    f"<div style='text-align: center; color: {THEME['text_muted']}; font-size: 0.8rem; padding: 6px 0; letter-spacing: 0.02em;'>"
+    "AEROMONITOR &bull; WIND TURBINE DRIVETRAIN PREDICTIVE MAINTENANCE &bull; NREL DYNAMOMETER BENCHMARK"
     "</div>",
     unsafe_allow_html=True
 )
